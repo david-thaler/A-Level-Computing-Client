@@ -133,7 +133,7 @@ public class LoginController implements Initializable{
 					client = new Client();
 					client.start();
 					try {
-						client.connect(5000, controller.serverIP, 1337);
+						client.connect(5000, controller.serverIP, 6698);
 					} catch (IOException e) {
 						TopLabel.setText("(Cannot Connect) Sorry the server seems to be down at the moment.");
 						TopLabel.setTextFill(Color.RED);
