@@ -2,7 +2,6 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.co.jlensmeister</groupId>
   <artifactId>Comp4Client</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <name>Comp4 Client Application</name>
   <description>Comp 4 project client side application</description>
   <build>
@@ -41,4 +40,5 @@
   		<version>2.22.0-RC1</version>
   	</dependency>
   </dependencies>
+  <version>VERSION-1</version>
 </project>
