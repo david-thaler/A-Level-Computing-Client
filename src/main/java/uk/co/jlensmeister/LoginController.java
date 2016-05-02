@@ -83,7 +83,13 @@ public class LoginController implements Initializable{
 		
 		LoginButton.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			public void handle(MouseEvent arg0) {
-				
+				if(username.getText().isEmpty() || password.getText().isEmpty()){
+					changeText("You must enter a username and password.");
+				}else if(username.getLength() < 4){
+					changeText("Your username must be 4 to 20 characters long.");
+				}else if(password.getLength() < 6){
+					changeText("Your password must be between 6 and 255 characters long.");
+				}else{
 				client = new Client();
 				client.start();
 				try {
@@ -149,6 +155,7 @@ public class LoginController implements Initializable{
 					
 				});
 				
+				}
 			}
 		});
 		
