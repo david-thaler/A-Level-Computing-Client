@@ -10,6 +10,8 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,9 +50,35 @@ public class LoginController implements Initializable{
 				changeServerInput.setContentText("Enter the hostname or IP of the master server: ");
 				Optional<String> input = changeServerInput.showAndWait();
 				if(input.isPresent()){
-					controller.serverIP = input.get();
+					if(input.get().length() < 5 || input.get().length() > 40){
+						changeText("IP/Hostname was not set, it should be 5 to 40 characters long.");
+					}else{
+						controller.serverIP = input.get();
+					}
 				}
 			}
+		});
+		
+		username.lengthProperty().addListener(new ChangeListener<Number>(){
+			public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    if (username.getText().length() > 20) {
+                        username.setText(username.getText().substring(0, 20));
+                    }
+                }
+            }
+		});
+		
+		password.lengthProperty().addListener(new ChangeListener<Number>(){
+			public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    if (password.getText().length() >= 255) {
+                        password.setText(password.getText().substring(0, 255));
+                    }
+                }
+            }
 		});
 		
 		LoginButton.setOnMouseClicked(new EventHandler<MouseEvent>(){
@@ -129,6 +157,10 @@ public class LoginController implements Initializable{
 			public void handle(MouseEvent arg0) {
 				if(username.getText().isEmpty() || password.getText().isEmpty()){
 					changeText("You must enter a username and password.");
+				}else if(username.getLength() < 4){
+					changeText("Your username must be 4 to 20 characters long.");
+				}else if(password.getLength() < 6){
+					changeText("Your password must be between 6 and 255 characters long.");
 				}else{
 					client = new Client();
 					client.start();

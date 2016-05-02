@@ -3,6 +3,8 @@ package uk.co.jlensmeister;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -30,6 +32,17 @@ public class TabContentController implements Initializable{
 	private TabsController tc;
 	
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		ChatTextField.lengthProperty().addListener(new ChangeListener<Number>(){
+			public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    if (ChatTextField.getText().length() >= 255) {
+                        ChatTextField.setText(ChatTextField.getText().substring(0, 255));
+                    }
+                }
+            }
+		});
 		
 		ChatListBox.getItems().add("Connecting to room...");
 		

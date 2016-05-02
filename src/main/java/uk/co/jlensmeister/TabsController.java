@@ -1,6 +1,8 @@
 package uk.co.jlensmeister;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +44,7 @@ public class TabsController implements Initializable{
 	@FXML private TabPane tabpane;
 	private HashMap<String, TabContentController> tabs = new HashMap<String,TabContentController>();
 	private Tab homeTab;
-	private Client client;
+	 Client client;
 	String user;
 	public String serverIP = "127.0.0.1";
 
@@ -61,7 +63,6 @@ public class TabsController implements Initializable{
 		}
 		LoginController loginController = (LoginController)loader.getController();
 		loginController.setTabsController(this);
-		
 		
 	}
 	
@@ -126,6 +127,19 @@ public class TabsController implements Initializable{
 			e.printStackTrace();
 		}
 		newTab.setClosable(true);
+		final String n = name;
+		newTab.setOnClosed(new EventHandler(){
+			public void handle(Event event) {
+				Platform.runLater(new Runnable(){
+					public void run() {
+						Left l = new Left();
+						l.username = user;
+						l.room = n.toLowerCase();
+						client.sendTCP(l);
+					}
+				});
+			}
+		});
 		tabpane.getTabs().add(newTab);
 		TabContentController tabcontroller = (TabContentController)loader.getController();
 		tabcontroller.setController(this);
@@ -143,6 +157,8 @@ public class TabsController implements Initializable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		AdminController ac = (AdminController) loader.getController();
+		ac.setTabsController(this);
 		newTab.setClosable(false);
 		tabpane.getTabs().add(newTab);
 	}
@@ -161,6 +177,7 @@ public class TabsController implements Initializable{
 		kryo.register(ChatMessage.class);
 		kryo.register(Disconnected.class);
 		kryo.register(Joined.class);
+		kryo.register(Left.class);
 		
 		client.sendTCP("F/"+username+"/"+password);
 		user = username;
@@ -183,9 +200,9 @@ public class TabsController implements Initializable{
 				        final String user = leaving.username;
 				        final String room = (String)pair.getKey();
 				        Platform.runLater(new Runnable(){
-				        	public void run(){
-				        		removeUserFromTab(user, room);
-				        	}
+				        	public void run() {
+						        removeUserFromTab(user, room);
+							}
 				        });
 				    }
 				}else if(object instanceof Joined){
@@ -228,8 +245,30 @@ public class TabsController implements Initializable{
 									}
 								});
 							}
+						}else if(strr[0].equals("L")){
+							PrintWriter writer = null;
+							try {
+								writer = new PrintWriter("Log.txt");
+							} catch (FileNotFoundException e) {
+								e.printStackTrace();
+							}
+							for(String m : strr){
+								if(m.equals("L")){
+								}else{
+									writer.println(m);
+								}
+							}
+							writer.close();
 						}
 					}
+				}else if(object instanceof Left){
+					final Left l = (Left) object;
+					Platform.runLater(new Runnable(){
+
+						public void run() {
+							removeUserFromTab(l.username.toLowerCase(), l.room.toLowerCase());
+						}
+					});
 				}
 			}
 			
@@ -264,7 +303,7 @@ public class TabsController implements Initializable{
 	}
 	
 	public void removeUserFromTab(String username, String room){
-		TabContentController tab = tabs.get(room);
+		TabContentController tab = tabs.get(room.toLowerCase());
 		tab.removeOnlineUser(username);
 	}
 	

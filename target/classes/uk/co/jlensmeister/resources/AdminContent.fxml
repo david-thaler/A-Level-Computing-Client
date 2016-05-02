@@ -1,54 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.web.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.co.jlensmeister.LoginController">
+
+<Pane fx:id="Pane" focusTraversable="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.co.jlensmeister.AdminController">
    <children>
-      <VBox layoutX="14.0" layoutY="14.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
+      <HBox>
          <children>
-            <HBox>
-               <children>
-                  <Label fx:id="TopLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" textAlignment="CENTER" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets top="10.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
-            <HBox>
-               <children>
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Welcome, please login with your username and password." textAlignment="CENTER" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets top="25.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
-            <TextField fx:id="username" layoutX="153.0" layoutY="83.0" minWidth="310.0" promptText="Username">
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </TextField>
-            <PasswordField fx:id="password" layoutX="34.0" layoutY="118.0" minWidth="310.0" promptText="Password">
-               <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </VBox.margin>
-            </PasswordField>
-            <HBox>
-               <children>
-                  <Button fx:id="LoginButton" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="151.0" mnemonicParsing="false" text="Login" HBox.hgrow="ALWAYS">
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
-                  </Button>
-                  <Button fx:id="RegisterButton" maxWidth="1.7976931348623157E308" minWidth="151.0" mnemonicParsing="false" text="Register" HBox.hgrow="ALWAYS" />
-               </children>
-            </HBox>
+            <Button fx:id="banuser" mnemonicParsing="false" text="Ban User" />
+            <Button fx:id="makeuseradmin" mnemonicParsing="false" text="Make User Admin" />
+            <Button fx:id="generatelog" mnemonicParsing="false" text="Messages Log" />
          </children>
-      </VBox>
+      </HBox>
    </children>
-</AnchorPane>
+   <padding>
+      <Insets top="20.0" />
+   </padding>
+</Pane>
