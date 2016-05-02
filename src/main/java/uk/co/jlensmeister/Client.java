@@ -21,6 +21,7 @@ public class Client extends Application {
 			stage.setHeight(550);
 			stage.setWidth(600);
 			stage.show();
+			stage.setTitle("TechiCode Support Chat");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
