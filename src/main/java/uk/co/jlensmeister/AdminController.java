@@ -17,6 +17,7 @@ public class AdminController implements Initializable{
 	@FXML private Button generatelog;
 	@FXML private Button makeuseradmin;
 	@FXML private Button banuser;
+	@FXML private Button unbanuser;
 	
 	private TabsController tc;
 	
@@ -74,6 +75,26 @@ public class AdminController implements Initializable{
 					ban = ban + input.get();
 				}
 				final String req = ban;
+				Platform.runLater(new Runnable(){
+					public void run() {
+						tc.client.sendTCP(req);
+					}
+				});
+			}
+		});
+		
+		unbanuser.setOnMouseClicked(new EventHandler(){
+			public void handle(Event event){
+				String unban = "admin/U/";
+				TextInputDialog changeServerInput = new TextInputDialog("");
+				changeServerInput.setTitle("Unban a User");
+				changeServerInput.setHeaderText("");
+				changeServerInput.setContentText("Enter the username of the user to be unbanned: ");
+				Optional<String> input = changeServerInput.showAndWait();
+				if(input.isPresent()){
+					unban = unban + input.get();
+				}
+				final String req = unban;
 				Platform.runLater(new Runnable(){
 					public void run() {
 						tc.client.sendTCP(req);
